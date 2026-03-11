@@ -152,6 +152,7 @@ export class HTTPApi extends TypedEmitter<HTTPApiEvents> {
   private apiGetHouseList = "v1/house/list";
   private apiGetHouseInvites = "v1/house/invite_list";
   private apiConfirmHouseInvite = "v1/house/confirm_invite";
+  private apiSendHouseInvite = "v1/house/invite";
 
   private apiAddLocalUser = "v1/app/device/local_user/add";
   private apiDeleteLocalUser = "v1/app/device/user/delete";
@@ -1712,6 +1713,41 @@ export class HTTPApi extends TypedEmitter<HTTPApiEvents> {
           data: response.data,
           houseID: houseID,
           inviteID: inviteID,
+        });
+      }
+    }
+    return false;
+  }
+
+  public async sendHouseInvite(houseID: string, email: string): Promise<boolean> {
+    const data = {
+      house_id: houseID,
+      email: email,
+      transaction: `${new Date().getTime().toString()}`,
+    };
+    const response: ApiResponse | undefined = await this.makePostRequest(this.apiSendHouseInvite, data);
+
+    if (response !== undefined) {
+      if (response.status == 200) {
+        const result: ResultResponse = response.data;
+        if (result.code == ResponseErrorCode.CODE_OK) {
+          return true;
+        } else {
+          rootHTTPLogger.error("Send house invite - Response code not ok", {
+            code: result.code,
+            msg: result.msg,
+            data: response.data,
+            houseID: houseID,
+            email: email,
+          });
+        }
+      } else {
+        rootHTTPLogger.error("Send house invite - Status return code not 200", {
+          status: response.status,
+          statusText: response.statusText,
+          data: response.data,
+          houseID: houseID,
+          email: email,
         });
       }
     }
