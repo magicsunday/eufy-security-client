@@ -1391,7 +1391,7 @@ export class HTTPApi extends TypedEmitter<HTTPApiEvents> {
       if (response.status == 200) {
         const result: ResultResponse = response.data;
         if (result.code == ResponseErrorCode.CODE_OK) {
-          if (result.data) {
+          if (result.data && typeof result.data === "string") {
             const invites: Invites = {};
             const decrypted = this.decryptAPIData(result.data);
             rootHTTPLogger.debug("Get invites - Decrypted invites data", { invites: decrypted });
@@ -1642,9 +1642,7 @@ export class HTTPApi extends TypedEmitter<HTTPApiEvents> {
     return [];
   }
 
-  public async getHouseInviteList(isInviter = 1): Promise<Array<HouseInviteListResponse>> {
-    //TODO: Understand the other values of isInviter and document it
-
+  public async getHouseInviteList(isInviter = 0): Promise<Array<HouseInviteListResponse>> {
     const data = {
       is_inviter: isInviter,
       transaction: `${new Date().getTime().toString()}`,
@@ -1656,8 +1654,6 @@ export class HTTPApi extends TypedEmitter<HTTPApiEvents> {
         const result: ResultResponse = response.data;
         if (result.code == ResponseErrorCode.CODE_OK) {
           if (result.data) {
-            //const houseInviteList = this.decryptAPIData(result.data) as Array<HouseInviteListResponse>;   // No more encrypted!?
-            //rootHTTPLogger.debug("Get house invite list - Decrypted house invite list data", houseInviteList);
             const houseInviteList = result.data as Array<HouseInviteListResponse>;
             rootHTTPLogger.debug("Get house invite list - House invite list data", houseInviteList);
             return houseInviteList;
@@ -1686,7 +1682,7 @@ export class HTTPApi extends TypedEmitter<HTTPApiEvents> {
     const data = {
       house_id: houseID,
       invite_id: inviteID,
-      is_inviter: 1, // 1 = true, 0 = false
+      is_inviter: 0, // 0 = invitee accepting, 1 = inviter
       //user_id: "",
       transaction: `${new Date().getTime().toString()}`,
     };
