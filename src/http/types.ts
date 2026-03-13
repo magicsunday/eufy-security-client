@@ -8705,9 +8705,14 @@ export const DeviceProperties: Properties = {
     [PropertyName.DeviceBattery]: DeviceBatteryProperty,
     [PropertyName.DeviceBatteryLow]: DeviceBatteryLowMotionSensorProperty,
   },
-  [DeviceType.WATER_FREEZE_SENSOR_8920] : {
-    ...GenericDeviceProperties
-  }
+  [DeviceType.WATER_FREEZE_SENSOR_8920]: {
+    ...GenericDeviceProperties,
+    [PropertyName.DeviceState]: DeviceStateProperty,
+    [PropertyName.DeviceBattery]: DeviceBatteryProperty,
+    [PropertyName.DeviceSnooze]: DeviceSnoozeProperty,
+    [PropertyName.DeviceWifiRSSI]: DeviceWifiRSSIEntrySensorProperty,
+    [PropertyName.DeviceBatteryLow]: DeviceBatteryLowMotionSensorProperty,
+  },
 };
 
 DeviceProperties[DeviceType.INDOOR_PT_CAMERA_C220_V2] = DeviceProperties[DeviceType.INDOOR_PT_CAMERA_C220];
