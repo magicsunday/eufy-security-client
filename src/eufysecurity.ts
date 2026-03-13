@@ -1402,6 +1402,15 @@ export class EufySecurity extends TypedEmitter<EufySecurityEvents> {
     if (refreshCloud) this.refreshCloudData();
   }
 
+  public async sendHouseInvite(houseID: string, email: string): Promise<boolean> {
+    const result = await this.api.sendHouseInvite(houseID, email).catch((err) => {
+      const error = ensureError(err);
+      rootMainLogger.error("Error sending house invite", { error: getError(error), houseID, email });
+      return false;
+    });
+    return result;
+  }
+
   private onPushMessage(message: PushMessage): void {
     this.emit("push message", message);
 
