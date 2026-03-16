@@ -2297,14 +2297,14 @@ export class P2PClientProtocol extends TypedEmitter<P2PClientProtocolEvents> {
           this.currentMessageState[message.dataType].p2pStreamMetadata.videoWidth = videoMetaData.videoWidth;
 
           if (!this.currentMessageState[message.dataType].p2pStreamFirstVideoDataReceived) {
-          if (
-            this.rawStation.station_sn.startsWith("T8410") ||
-            this.rawStation.station_sn.startsWith("T8417") ||
-            this.rawStation.station_sn.startsWith("T8400") ||
-            this.rawStation.station_sn.startsWith("T8401") ||
-            this.rawStation.station_sn.startsWith("T8411") ||
-            this.rawStation.station_sn.startsWith("T8202") ||
-            this.rawStation.station_sn.startsWith("T8422") ||
+            if (
+              this.rawStation.station_sn.startsWith("T8410") ||
+              this.rawStation.station_sn.startsWith("T8417") ||
+              this.rawStation.station_sn.startsWith("T8400") ||
+              this.rawStation.station_sn.startsWith("T8401") ||
+              this.rawStation.station_sn.startsWith("T8411") ||
+              this.rawStation.station_sn.startsWith("T8202") ||
+              this.rawStation.station_sn.startsWith("T8422") ||
               this.rawStation.station_sn.startsWith("T8424") ||
               this.rawStation.station_sn.startsWith("T8423") ||
               this.rawStation.station_sn.startsWith("T8130") ||
