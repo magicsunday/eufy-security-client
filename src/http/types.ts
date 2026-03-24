@@ -101,6 +101,7 @@ export enum DeviceType {
   LOCK_85D0 = 202,
   LOCK_85L0 = 201,
   LOCK_85V0 = 203,
+  CAMERA_POE_S4 = 301, //T8E00
   WALL_LIGHT_CAM_81A0 = 10005,
   INDOOR_PT_CAMERA_C220 = 10008, // T8W11C
   INDOOR_PT_CAMERA_C210 = 10009, // T8419 / T8W11P?
@@ -1060,6 +1061,7 @@ export const GenericTypeProperty: PropertyMetadataNumeric = {
     201: "Smart Lock C33 (T85L0)",
     202: "Smart Lock C30 (T85D0)",
     203: "FamiLock S3 (T85V0)",
+    301: "PoE Bullet-PTZ Cam S4 (T8E00)",
     10005: "Solar Wall Light Cam S120 (T81A0)",
     10008: "Indoor Cam C220 (T8W11C)",
     10009: "Indoor Cam C210 (T8419)",
@@ -8713,6 +8715,9 @@ export const DeviceProperties: Properties = {
     [PropertyName.DeviceWifiRSSI]: DeviceWifiRSSIEntrySensorProperty,
     [PropertyName.DeviceBatteryLow]: DeviceBatteryLowMotionSensorProperty,
   },
+  [DeviceType.CAMERA_POE_S4]: {
+    ...GenericDeviceProperties,
+  },
 };
 
 DeviceProperties[DeviceType.INDOOR_PT_CAMERA_C220_V2] = DeviceProperties[DeviceType.INDOOR_PT_CAMERA_C220];
@@ -10675,6 +10680,17 @@ export const DeviceCommands: Commands = {
     CommandName.DeviceSnooze,
     CommandName.StationTriggerAlarmSound,
     CommandName.DeviceTriggerAlarmSound,
+  ],
+  [DeviceType.CAMERA_POE_S4]: [
+    CommandName.DeviceStartLivestream,
+    CommandName.DeviceStopLivestream,
+    CommandName.DeviceTriggerAlarmSound,
+    CommandName.DeviceStartDownload,
+    CommandName.DeviceCancelDownload,
+    CommandName.DeviceStartTalkback,
+    CommandName.DeviceStopTalkback,
+    CommandName.DeviceSnooze,
+    CommandName.DevicePanAndTilt,
   ],
 };
 

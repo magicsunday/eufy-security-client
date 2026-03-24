@@ -1925,7 +1925,8 @@ export class Device extends TypedEmitter<DeviceEvents> {
       type == DeviceType.INDOOR_PT_CAMERA_C220 ||
       type == DeviceType.INDOOR_PT_CAMERA_C220_V2 ||
       type == DeviceType.SOLOCAM_E42 ||
-      type == DeviceType.SMART_DROP
+      type == DeviceType.SMART_DROP ||
+      type == DeviceType.CAMERA_POE_S4
     );
   }
 
@@ -2087,7 +2088,8 @@ export class Device extends TypedEmitter<DeviceEvents> {
       type == DeviceType.INDOOR_PT_CAMERA_E30 ||
       type == DeviceType.INDOOR_PT_CAMERA_C210 ||
       type == DeviceType.INDOOR_PT_CAMERA_C220 ||
-      type == DeviceType.INDOOR_PT_CAMERA_C220_V2
+      type == DeviceType.INDOOR_PT_CAMERA_C220_V2 ||
+      type == DeviceType.CAMERA_POE_S4
     )
       return true;
     return false;
@@ -2621,6 +2623,11 @@ export class Device extends TypedEmitter<DeviceEvents> {
     return false;
   }
 
+  static isCameraPoE(type: number): boolean {
+    //T8E00
+    return DeviceType.CAMERA_POE_S4 === type;
+  }
+
   public isCamera(): boolean {
     return Device.isCamera(this.rawDevice.device_type);
   }
@@ -2949,6 +2956,10 @@ export class Device extends TypedEmitter<DeviceEvents> {
 
   public isSmartTrackLink(): boolean {
     return Device.isSmartTrackLink(this.rawDevice.device_type);
+  }
+
+  public isCameraPoE(): boolean {
+    return Device.isCameraPoE(this.rawDevice.device_type);
   }
 
   public hasBattery(): boolean {
