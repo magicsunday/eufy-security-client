@@ -5392,12 +5392,12 @@ export const LockT85V0DeviceProperties: IndexedProperty = {
   ...GenericDeviceProperties,
   [PropertyName.DeviceBattery]: DeviceBatteryProperty,
   [PropertyName.DeviceBatteryTemp]: DeviceBatteryTempProperty,
-  [PropertyName.DeviceWifiRSSI]: DeviceWifiRSSIProperty,
+  [PropertyName.DeviceWifiRSSI]: DeviceWifiRSSILockProperty,
   [PropertyName.DeviceWifiSignalLevel]: DeviceWifiSignalLevelProperty,
-  [PropertyName.DeviceEnabled]: DeviceEnabledProperty, //OK
-  [PropertyName.DeviceAutoNightvision]: DeviceAutoNightvisionProperty, //OK
-  [PropertyName.DeviceMotionDetection]: DeviceMotionDetectionProperty, //OK
-  [PropertyName.DeviceWatermark]: DeviceWatermarkBatteryDoorbellCamera1Property, //OK
+  [PropertyName.DeviceEnabled]: DeviceEnabledProperty,
+  [PropertyName.DeviceAutoNightvision]: DeviceAutoNightvisionProperty,
+  [PropertyName.DeviceMotionDetection]: DeviceMotionDetectionProperty,
+  [PropertyName.DeviceWatermark]: DeviceWatermarkBatteryDoorbellCamera1Property,
   [PropertyName.DeviceState]: DeviceStateProperty,
   [PropertyName.DeviceLastChargingDays]: DeviceLastChargingDaysProperty,
   [PropertyName.DeviceLastChargingFalseEvents]: DeviceLastChargingFalseEventsProperty,
@@ -8085,6 +8085,7 @@ export const DeviceProperties: Properties = {
     [PropertyName.DeviceLockEventOrigin]: DeviceLockEventOriginProperty,
     [PropertyName.DevicePersonName]: DevicePersonNameProperty,
   },
+  [DeviceType.LOCK_85V0]: LockT85V0DeviceProperties,
   [DeviceType.LOCK_BLE]: {
     ...GenericDeviceProperties,
     [PropertyName.DeviceState]: DeviceStateLockProperty,
@@ -10610,6 +10611,22 @@ export const DeviceCommands: Commands = {
     CommandName.DeviceUpdateUsername,
   ],
   [DeviceType.LOCK_8530]: [
+    CommandName.DeviceStartLivestream,
+    CommandName.DeviceStopLivestream,
+    CommandName.DeviceQuickResponse,
+    CommandName.DeviceStartDownload,
+    CommandName.DeviceCancelDownload,
+    CommandName.DeviceStartTalkback,
+    CommandName.DeviceStopTalkback,
+    CommandName.DeviceSnooze,
+    CommandName.DeviceLockCalibration,
+    CommandName.DeviceAddUser,
+    CommandName.DeviceDeleteUser,
+    CommandName.DeviceUpdateUserPasscode,
+    CommandName.DeviceUpdateUserSchedule,
+    CommandName.DeviceUpdateUsername,
+  ],
+  [DeviceType.LOCK_85V0]: [
     CommandName.DeviceStartLivestream,
     CommandName.DeviceStopLivestream,
     CommandName.DeviceQuickResponse,
