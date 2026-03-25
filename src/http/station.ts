@@ -642,10 +642,7 @@ export class Station extends TypedEmitter<StationEvents> {
       }
       if (property.name === PropertyName.Model && Device.isLockWifiT8510P(this.getDeviceType(), this.getSerial())) {
         return "T8510P";
-      } else if (
-        property.name === PropertyName.Model &&
-        Device.isLockWifiT85V0(this.getDeviceType())
-      ) {
+      } else if (property.name === PropertyName.Model && Device.isLockWifiT85V0(this.getDeviceType())) {
         return "T85V0";
       } else if (property.type === "number") {
         const numericProperty = property as PropertyMetadataNumeric;
