@@ -130,6 +130,7 @@ import { BleCommandFactory, BleParameterIndex } from "./ble";
 import { CommandName, ParamType, Station } from "../http";
 import { getError, parseJSON } from "../utils";
 import { rootP2PLogger } from "../logging";
+import { normalizeAdtsFrames } from "./adts";
 
 export class P2PClientProtocol extends TypedEmitter<P2PClientProtocolEvents> {
   private readonly MAX_RETRIES = 10;
@@ -2505,7 +2506,17 @@ export class P2PClientProtocol extends TypedEmitter<P2PClientProtocolEvents> {
             }
           }
 
-          this.currentMessageState[message.dataType].audioStream?.push(audio_data);
+          {
+            const codec = this.currentMessageState[message.dataType].p2pStreamMetadata.audioCodec;
+            const stream = this.currentMessageState[message.dataType].audioStream;
+            if (stream && (codec === AudioCodec.AAC || codec === AudioCodec.AAC_LC)) {
+              for (const frame of normalizeAdtsFrames(audio_data)) {
+                stream.push(frame);
+              }
+            } else {
+              stream?.push(audio_data);
+            }
+          }
           break;
         default:
           rootP2PLogger.debug(`Handle DATA ${P2PDataType[message.dataType]} - Not implemented message`, {
