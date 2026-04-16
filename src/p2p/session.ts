@@ -2160,6 +2160,7 @@ export class P2PClientProtocol extends TypedEmitter<P2PClientProtocolEvents> {
   private isIFrame(data: Buffer, isKeyFrame: boolean): boolean {
     if (
       this.rawStation.station_sn.startsWith("T8410") ||
+      this.rawStation.station_sn.startsWith("T8417") ||
       this.rawStation.station_sn.startsWith("T8400") ||
       this.rawStation.station_sn.startsWith("T8401") ||
       this.rawStation.station_sn.startsWith("T8411") ||
@@ -2299,6 +2300,7 @@ export class P2PClientProtocol extends TypedEmitter<P2PClientProtocolEvents> {
           if (!this.currentMessageState[message.dataType].p2pStreamFirstVideoDataReceived) {
             if (
               this.rawStation.station_sn.startsWith("T8410") ||
+              this.rawStation.station_sn.startsWith("T8417") ||
               this.rawStation.station_sn.startsWith("T8400") ||
               this.rawStation.station_sn.startsWith("T8401") ||
               this.rawStation.station_sn.startsWith("T8411") ||
@@ -3595,14 +3597,18 @@ export class P2PClientProtocol extends TypedEmitter<P2PClientProtocolEvents> {
                 if (payload) {
                   this.emit("garage door status", message.channel, payload.door_id, payload.type);
                 }
-              } else if (json.cmd === CommandType.CMD_STORAGE_INFO_HB3) {
-                const payload = json.payload as StorageInfoHB3;
+              } else if (json.cmd === 6246) {
+                const payload = json.payload as { num?: number };
                 rootP2PLogger.debug(
-                  `Handle DATA ${P2PDataType[message.dataType]} - CMD_NOTIFY_PAYLOAD StorageInfo HB3 update`,
-                  { stationSN: this.rawStation.station_sn, body: payload?.body }
+                  `Handle DATA ${P2PDataType[message.dataType]} - CMD_NOTIFY_PAYLOAD Livestream status`,
+                  { stationSN: this.rawStation.station_sn, payload: payload }
                 );
-                if (payload) {
-                  this.emit("storage info hb3", message.channel, payload.body);
+                if (payload?.num !== undefined) {
+                  if (payload.num > 0) {
+                    this.emit("rtsp livestream started", message.channel);
+                  } else {
+                    this.emit("rtsp livestream stopped", message.channel);
+                  }
                 }
               } else if (json.cmd === CommandType.CMD_HUB_NOTIFY_UPDATE) {
                 rootP2PLogger.debug(
