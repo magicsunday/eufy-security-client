@@ -321,7 +321,7 @@ export class Station extends TypedEmitter<StationEvents> {
       !Device.isLockWifiT8510P(stationData.device_type, stationData.station_sn) &&
       !Device.isLockWifiT8520P(stationData.device_type, stationData.station_sn) &&
       !Device.isLockWifiT85L0(stationData.device_type) &&
-      !Device.isLockWifiT85V0(stationData.device_type, stationData.station_sn)
+      !Device.isLockWifiT85V0(stationData.device_type)
     ) {
       publicKey = await api.getPublicKey(stationData.station_sn, PublicKeyType.LOCK);
     }
@@ -642,10 +642,7 @@ export class Station extends TypedEmitter<StationEvents> {
       }
       if (property.name === PropertyName.Model && Device.isLockWifiT8510P(this.getDeviceType(), this.getSerial())) {
         return "T8510P";
-      } else if (
-        property.name === PropertyName.Model &&
-        Device.isLockWifiT85V0(this.getDeviceType(), this.getSerial())
-      ) {
+      } else if (property.name === PropertyName.Model && Device.isLockWifiT85V0(this.getDeviceType())) {
         return "T85V0";
       } else if (property.type === "number") {
         const numericProperty = property as PropertyMetadataNumeric;
@@ -17888,7 +17885,7 @@ export class Station extends TypedEmitter<StationEvents> {
       Device.isLockWifiT8502(this.getDeviceType()) ||
       Device.isLockWifiT8510P(this.getDeviceType(), this.getSerial()) ||
       Device.isLockWifiT8520P(this.getDeviceType(), this.getSerial()) ||
-      Device.isLockWifiT85V0(this.getDeviceType(), this.getSerial()) ||
+      Device.isLockWifiT85V0(this.getDeviceType()) ||
       Device.isLockWifiT85L0(this.getDeviceType())
     ) {
       rootHTTPLogger.debug(`Station smart lock send get lock parameters command`, { stationSN: this.getSerial() });
@@ -17923,7 +17920,7 @@ export class Station extends TypedEmitter<StationEvents> {
       Device.isLockWifiT8502(this.getDeviceType()) ||
       Device.isLockWifiT8510P(this.getDeviceType(), this.getSerial()) ||
       Device.isLockWifiT8520P(this.getDeviceType(), this.getSerial()) ||
-      Device.isLockWifiT85V0(this.getDeviceType(), this.getSerial()) ||
+      Device.isLockWifiT85V0(this.getDeviceType()) ||
       Device.isLockWifiT85L0(this.getDeviceType())
     ) {
       rootHTTPLogger.debug(`Station smart lock send get lock status command`, { stationSN: this.getSerial() });
